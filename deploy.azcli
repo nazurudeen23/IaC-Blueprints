@@ -1,0 +1,16 @@
+
+
+
+
+az group create -n learnarm -l centralindia
+
+# validate with parameter file
+az deployment group validate -g learnarm --template-file "02-azuredeploy.json" --parameter "02-azuredeploy.parameters.json" --verbose
+
+# deploy it
+az deployment group create -g learnarm -n arm3 --template-file "02-azuredeploy.json" --parameter "02-azuredeploy.parameters.json" --verbose
+
+
+#  https://resources.azure.com/
+
+bicep decompile

@@ -1,0 +1,54 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storageSKU": {
+            "type": "string",
+            "allowedValues":[
+                "Standard_LRS",
+                "Standard_ZRS",
+                "Premium_LRS"
+            ],
+            "defaultValue":"Standard_LRS",
+            "metadata": {
+                "description": "The type of replication to use"
+            }
+        },
+        "storageName": {
+            "type": "string",
+            "metadata": {
+                "description": "name of the account"
+            }
+        },
+        "mydate": {
+            "type": "string",
+            "defaultValue": "[utcNow('yyyyMMdd')]",
+            "metadata": {
+                "description": "description"
+            }
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "name": "[concat(parameters('storageName'), parameters('mydate'))]", 
+            //"name": "[concat(parameters('storageName'), uniqueString(resourceGroup().id))]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2023-04-01",
+            "tags": {
+                "displayName": "[parameters('storageName')]"
+            },
+            "location": "[resourceGroup().location]",
+            "kind": "StorageV2",
+            "sku": {
+                "name": "[parameters('storageSKU')]",
+                "tier": "standard"
+            },
+            "properties":{
+                "supportsHttpsTrafficOnly":true
+            }
+        }
+    ],
+    "outputs": {}
+}
